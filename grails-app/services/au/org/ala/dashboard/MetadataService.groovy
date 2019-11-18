@@ -3,6 +3,7 @@ package au.org.ala.dashboard
 import grails.converters.JSON
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
+import org.apache.juli.logging.Log
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.grails.web.json.JSONArray
@@ -669,6 +670,8 @@ class MetadataService {
      * @return [[label: <value>, count: <value<], ...]
      */
     List getStateAndTerritoryRecords() {
+        log.info("-----------------------------------")
+        log.info("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS}")
         return cacheService.get('state_and_territory_records', {
             def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS}")
             ((results.facetResults.find {it.fieldName == 'state'}).fieldResult as ArrayList)

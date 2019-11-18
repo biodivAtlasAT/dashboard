@@ -34,82 +34,109 @@
 
     <div id="floatContainer">
 
+
+    <g:if test="${grailsApplication.config.getProperty("panels.recordsPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="recordsPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.datasetsPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="datasetsPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.basisRecordsPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="basisRecordsPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.collectionPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="collectionPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.dateRecordsPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="dateRecordsPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.nslPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="nslPanel"/>
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.spatialPanel", Boolean, true)}" >
+       <g:include controller="dashboard" action="spatialPanel"/>
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.statePanel", Boolean, true)}" >
+       <g:include controller="dashboard" action="statePanel"/>
+    </g:if>
 
-        <g:include controller="dashboard" action="spatialPanel"/>
+        %{--    <g:include controller="dashboard" action="identifyLifePanel"/>--}%
 
-        <g:include controller="dashboard" action="statePanel"/>
-
-%{--    <g:include controller="dashboard" action="identifyLifePanel"/>--}%
-
+    <g:if test="${grailsApplication.config.getProperty("panels.mostRecordedSpeciesPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="mostRecordedSpeciesPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.typeSpecimensPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="typeSpecimensPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.barcodeOfLifePanel", Boolean, true)}" >
         <g:include controller="dashboard" action="barcodeOfLifePanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.bhlPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="bhlPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.volunteerPortalPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="volunteerPortalPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.conservationStatusPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="conservationStatusPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.recordsByDataProviderPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="recordsByDataProviderPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.recordsByInstitutionPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="recordsByInstitutionPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.occurrenceTreePanel", Boolean, true)}" >
         <g:include controller="dashboard" action="occurrenceTreePanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.recordsByLifeFormPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="recordsByLifeFormPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.recordsAndSpeciesByDecadePanel", Boolean, true)}" >
         <g:include controller="dashboard" action="recordsAndSpeciesByDecadePanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.usageStatisticsPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="usageStatisticsPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.downloadsByReasonPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="downloadsByReasonPanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.downloadsBySourcePanel", Boolean, true)}" >
         <g:include controller="dashboard" action="downloadsBySourcePanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.downloadsByUserTypePanel", Boolean, true)}" >
         <g:include controller="dashboard" action="downloadsByUserTypePanel"/>
-
+    </g:if>
+    <g:if test="${grailsApplication.config.getProperty("panels.speciesImagesPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="speciesImagesPanel"/>
+    </g:if>
 
-    </div>
+</div>
 </div>
 
 <asset:javascript src="application.js"/>
 
 <asset:script type="text/javascript">
-    var alaWsUrls = {
-        collections: '${grailsApplication.config.collectory.baseURL}',
-        biocache: '${grailsApplication.config.biocache.baseURL}',
-        biocacheUI: '${grailsApplication.config.biocache.webappURL}',
-        bie: '${grailsApplication.config.bie.baseURL}',
-        bieUI: '${grailsApplication.config.bie.webappURL}',
-        app: '${request.contextPath}'
-    }
+var alaWsUrls = {
+collections: '${grailsApplication.config.collectory.baseURL}',
+biocache: '${grailsApplication.config.biocache.baseURL}',
+biocacheUI: '${grailsApplication.config.biocache.webappURL}',
+bie: '${grailsApplication.config.bie.baseURL}',
+bieUI: '${grailsApplication.config.bie.webappURL}',
+app: '${request.contextPath}'
+}
 
-    <g:applyCodec encodeAs="none">
-    var panelInfo = ${panelInfo?:'{}'};
-    </g:applyCodec>
+<g:applyCodec encodeAs="none">
+var panelInfo = ${panelInfo?:'{}'};
+</g:applyCodec>
 
-    $(function() {
-        dashboard.init({
-            urls: alaWsUrls
-        });
+$(function() {
+dashboard.init({
+    urls: alaWsUrls
+});
 
-    $('#floatContainer > div > div.panel').matchHeight();
-    $.fn.matchHeight._maintainScroll = true;
+$('#floatContainer > div > div.panel').matchHeight();
+$.fn.matchHeight._maintainScroll = true;
 });
 </asset:script>
 </body>

@@ -228,12 +228,11 @@ class DashboardController {
         writeCsvFile('biodiversity-volunteer-portal', metadataService.get('volunteerPortalCounts'), [])
 
         /* zip files */
-        new AntBuilder().zip(destfile: '/data/dashboard/zip/dashboard.zip', basedir: '/data/dashboard/csv/',
-        includes: '**/*.csv')
+        new AntBuilder().zip(destfile: grailsApplication.config.zip.temp.dir+"dashboard.zip", basedir: grailsApplication.config.csv.temp.dir, includes: '**/*.csv')
 
         /* render zip */
         response.setHeader("Content-disposition", "attachment; filename=dashboard.zip");
-        byte[] zip = new File('/data/dashboard/zip/dashboard.zip').bytes
+        byte[] zip = new File(grailsApplication.config.zip.temp.dir+"dashboard.zip").bytes
         response.contentType = "application/zip"
         response.outputStream << zip
     }

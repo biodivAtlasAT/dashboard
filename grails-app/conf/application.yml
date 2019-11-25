@@ -144,25 +144,29 @@ environments:
                 appServerName: "https://auth.ala.org.au"
 
 biocache:
-  baseURL: "https://biocache.ala.org.au/ws"
-  webappURL: "https://biocache.ala.org.au"
+  #baseURL: "https://biocache.ala.org.au/ws"
+  #webappURL: "https://biocache.ala.org.au"
+  baseURL: "https://biocache-ws.biodiversityatlas.at"
+  webappURL: "https://biocache.biodiversityatlas.at"
 
 ala:
   baseURL: "https://www.ala.org.au"
 
 bie:
-  #baseURL: "https://bie.ala.org.au"
   baseURL: "https://bie-ws.biodiversityatlas.at"
   searchPath: "/search"
 
 spatial:
-  baseURL: "http://spatial.ala.org.au"
+  #baseURL: "http://spatial.ala.org.au"
+  baseURL: "https://spatial.biodiversityatlas.at/ws"
 
 logger:
-  baseURL: "https://logger.ala.org.au"
+  #baseURL: "https://logger.ala.org.au"
+  baseURL: "https://logger.biodiversityatlas.at"
 
 collectory:
-  baseURL: "https://collections.ala.org.au"
+  #baseURL: "https://collections.ala.org.au"
+  baseURL: "https://collectory.biodiversityatlas.at"
 
 volunteer:
   baseURL: "https://volunteer.ala.org.au"
@@ -178,8 +182,8 @@ bhl:
   statsSelector: ".onlinestats"
 
 headerAndFooter:
-  #baseURL: "https://www.ala.org.au/commonui-bs3"
-  baseURL: "https://core.biodiversityatlas.at"
+  baseURL: "https://www.ala.org.au/commonui-bs3"
+  #baseURL: "https://core.biodiversityatlas.at"
 
 dashboard:
     data:
@@ -192,13 +196,17 @@ zip:
     temp:
         dir: "/data/dashboard/zip/"
 
+connection:
+    connectTimeout: 10000
+    readTimeout: 100000
+
 panels:
   recordsPanel: true
   datasetsPanel: true
   basisRecordsPanel: false
   collectionPanel: true
   dateRecordsPanel: true
-  nslPanel: false
+  nslPanel: true
   spatialPanel: true
   statePanel: true
   mostRecordedSpeciesPanel: true
@@ -217,3 +225,29 @@ panels:
   downloadsBySourcePanel: true
   downloadsByUserTypePanel: true
   speciesImagesPanel: false
+
+# final settings for austrai
+    #   recordsPanel: true
+    # datasetsPanel: true
+    # basisRecordsPanel: false
+    # collectionPanel: true
+    # dateRecordsPanel: true
+    # nslPanel: false
+    # spatialPanel: true
+    # statePanel: true
+    # mostRecordedSpeciesPanel: true
+    # typeSpecimensPanel: false
+    # barcodeOfLifePanel: false
+    # bhlPanel: false
+    # volunteerPortalPanel: false
+    # conservationStatusPanel: true
+    # recordsByDataProviderPanel: true
+    # recordsByInstitutionPanel: true
+    # occurrenceTreePanel: true
+    # recordsByLifeFormPanel: true
+    # recordsAndSpeciesByDecadePanel: true
+    # usageStatisticsPanel: true
+    # downloadsByReasonPanel: true
+    # downloadsBySourcePanel: true
+    # downloadsByUserTypePanel: true
+  # speciesImagesPanel: false

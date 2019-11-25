@@ -9,15 +9,26 @@
                     <tbody>
                         <tr>
                             <td>Records downloaded</td>
-                            <td>${loggerTotals["1002"]["events"]} events</td>
-                            <td>${loggerTotals["1002"]["records"]} records</td>
+                            <g:if test="${loggerTotals["1002"] != null}">
+                                <td>${loggerTotals["1002"]["events"]} events</td>
+                                <td>${loggerTotals["1002"]["records"]} records</td>
+                            </g:if>
+                            <g:else>
+                                <td>Value not provided!</td>
+                            </g:else>
                         </tr>
                         <tr></tr>
                         <tr>
                             <td>Records viewed</td>
-                            <td>${loggerTotals["1000"]["events"]} events</td>
-                            <td>${loggerTotals["1000"]["records"]} records</td>
+                            <g:if test="${loggerTotals["1000"] != null}">
+                                <td>${loggerTotals["1000"]["events"]} events</td>
+                                <td>${loggerTotals["1000"]["records"]} records</td>
+                            </g:if>
+                            <g:else>
+                                <td>Value not provided!</td>
+                            </g:else>
                         </tr>
+
                     </tbody>
                 </table>
             </div>

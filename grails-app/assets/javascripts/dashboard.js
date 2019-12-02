@@ -232,11 +232,11 @@ var dashboard = {
             $extra.slideToggle(300,  function() {
                 jQuery.fn.matchHeight._update();
             });
-            $(this).html(open ? 'More' : 'Less');
+            $(this).html(open ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
         });
         // more.. in spatial topic
         $('#moreSpatialLink').click(function () {
-            $('#moreSpatialLink').html($('#moreSpatial:visible').length ? 'More' : 'Less');
+            $('#moreSpatialLink').html($('#moreSpatial:visible').length ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
             $('#moreSpatial').slideToggle(300,  function() {
                 jQuery.fn.matchHeight._update();
             });
@@ -321,16 +321,16 @@ var dashboard = {
                     var slice = data.getValue(visualization.getSelection()[0].row, 0),
                         cat = "";
                     switch (slice) {
-                        case 'Plants':
+                        case collectionPanelTranslations.tr_plants:
                             cat = 'plants';
                             break;
-                        case 'Microbes':
+                        case collectionPanelTranslations.tr_microbes:
                             cat = 'microbes';
                             break;
-                        case 'Insects':
+                        case collectionPanelTranslations.tr_insects:
                             cat = 'insects';
                             break;
-                        case 'Other fauna':
+                        case collectionPanelTranslations.tr_otherFauna:
                             cat = 'fauna';
                             break;
                     }

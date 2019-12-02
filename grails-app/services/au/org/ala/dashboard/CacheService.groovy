@@ -89,7 +89,6 @@ log.info("cached results: "+results)
     }
 
     def refreshCache(key, cache, source) {
-        log.info("PPPPPPPPPPPPPPPPPP   ${key}     PPPPPPPPPPPPPPPPPPPPPPPPP")
         log.debug("Adding ${key} key to cache")
         try {
             def value = source.call()

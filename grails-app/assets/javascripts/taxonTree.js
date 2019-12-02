@@ -32,6 +32,9 @@ function initTaxonTree(treeOptions) {
         minWidth: treeOptions.minWidth ? treeOptions.minWidth : 340
     });
     var $tree = $('<div id="taxaTree"></div>').appendTo($treeContainer);
+    var tr_kingdom = occurrenceTreePanelTranslations.tr_kingdom;
+    var tr_showRecords = occurrenceTreePanelTranslations.tr_showRecords;
+    var tr_showInformation = occurrenceTreePanelTranslations.tr_showInformation;
     $tree
         .bind("after_open.jstree", function(event, data) {
             var children = $.jstree._reference(data.rslt.obj)._get_children(data.rslt.obj);
@@ -58,7 +61,7 @@ function initTaxonTree(treeOptions) {
         })
         .jstree({
             json_data: {
-                data: {"data":"Kingdoms", "state":"closed", "attr":{"rank":"kingdoms", "id":"top"}},
+                data: {"data":tr_kingdom, "state":"closed", "attr":{"rank":"kingdoms", "id":"top"}},
                 ajax: {
                     url: function(node) {
                         var rank = $(node).attr("rank");
@@ -100,8 +103,8 @@ function initTaxonTree(treeOptions) {
             },
             checkbox: {override_ui:true},
             contextmenu: {select_node: false, show_at_node: false, items: {
-                records: {label: "Show records", action: function(obj) {showRecords(obj, query);}},
-                bie: {label: "Show information", action: function(obj) {showBie(obj);}},
+                records: {label: tr_showRecords, action: function(obj) {showRecords(obj, query);}},
+                bie: {label: tr_showInformation, action: function(obj) {showBie(obj);}},
                 create: false,
                 rename: false,
                 remove: false,

@@ -126,6 +126,22 @@ bieUI: '${grailsApplication.config.bie.webappURL}',
 app: '${request.contextPath}'
 }
 
+var collectionPanelTranslations = {
+    tr_plants: '${message(code:"panels.collectionPanel.plants",default:"plants")}',
+    tr_insects: '${message(code:"panels.collectionPanel.insects", default:"Insects")}',
+    tr_otherFauna: '${message(code:"panels.collectionPanel.otherFauna", default:"Other fauna")}',
+    tr_microbes: '${message(code:"panels.collectionPanel.microbes", default:"Microbes")}'
+}
+var moreLessTranslations = {
+    tr_more: '${message(code:"panels.button.more",default:"More")}',
+    tr_less: '${message(code:"panels.button.less",default:"Less")}',
+}
+var occurrenceTreePanelTranslations = {
+    tr_kingdom: '${message(code:"panels.occurrenceTreePanel.node.kingdom",default:"Kingdom")}',
+    tr_showRecords: '${message(code:"panels.occurrenceTreePanel.label.showRecords",default:"Show records")}',
+    tr_showInformation: '${message(code:"panels.occurrenceTreePanel.label.showInformation",default:"Show information")}',
+}
+
 <g:applyCodec encodeAs="none">
 var panelInfo = ${panelInfo?:'{}'};
 </g:applyCodec>

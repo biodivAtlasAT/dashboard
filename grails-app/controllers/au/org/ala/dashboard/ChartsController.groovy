@@ -6,24 +6,31 @@ class ChartsController {
 
     def collections() {
         Map collections = metadataService.getCollectionsByCategory()
-        def columns = [['string', 'category'], ['number', 'collections']]
-        def data = [
-                ['Plants', collections.plants],
-                ['Insects', collections.insects],
-                ['Other fauna', collections.otherFauna],
-                ['Microbes', collections.micro]
-        ]
 
+        def columns = [['string', 'category'], ['number', 'collections']]
+        def plants = message(code: "panels.collectionPanel.plants", default:"Plants")
+        def insects = message(code: "panels.collectionPanel.insects", default:"Insects")
+        def otherFauna = message(code: "panels.collectionPanel.otherFauna", default:"Other fauna")
+        def microbes = message(code: "panels.collectionPanel.microbes", default:"Microbes")
+        def data = [
+                [plants, collections.plants],
+                [insects, collections.insects],
+                [otherFauna, collections.otherFauna],
+                [microbes, collections.micro]
+        ]
         [columns: columns, data: data]
     }
 
     def stateAndTerritoryRecords() {
         List stateAndTerritoryRecords = metadataService.getStateAndTerritoryRecords()
         def columns = [['string', 'state'], ['number', 'records']]
-        def data = stateAndTerritoryRecords.collect { record ->
+/*        def data = stateAndTerritoryRecords.collect { record ->
             [record.label, record.count]
+        }*/
+        def data = stateAndTerritoryRecords.collect { record ->
+            [message(code:"panels.statePanel."+record.i18nCode, default:record.label) , record.count]
         }
-
+log.info("-----------------------------"+data)
         [columns: columns, data: data]
     }
 

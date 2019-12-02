@@ -1,7 +1,7 @@
 <div class="col-sm-4 col-md-4" id="institutions-topic">
     <div class="panel">
         <div class="panel-heading">
-            <div class="panel-title">Records by institution<i class="fa fa-info-circle pull-right hidden"></i></div>
+            <div class="panel-title">${message(code:'panels.recordsByInstitutionPanel.title', default:'Records by institution')}<i class="fa fa-info-circle pull-right hidden"></i></div>
         </div>
         <div class="panel-body">
             <table class="table table-condensed table-striped table-hover">
@@ -9,7 +9,7 @@
                     <tr>
                         <td id="${b.uid}" title="${b.name}">
                             <g:if test="${b.uri}"><a href="${b.uri}"><db:shorten text="${b.display}" size="35"/></a></g:if>
-                            <g:else><db:shorten text="${b.display}" size="35"/></g:else>
+                            <g:else><db:shorten text="${message(code: "panels.recordsByInstitutionPanel."+b.display.toLowerCase().replace(' ',''), default:b.display)}" size="35"/></g:else>
                         </td>
                         <td class="numberColumn"><span class="count">${b.formattedCount}</span></td>
                     </tr>
@@ -22,7 +22,7 @@
                             <tr>
                                 <td id="${b.uid}" title="${b.name}">
                                     <g:if test="${b.uri}"><a href="${b.uri}"><db:shorten text="${b.display}" size="35"/></a></g:if>
-                                    <g:else><db:shorten text="${b.display}" size="35"/></g:else>
+                                    <g:else><db:shorten text="${message(code: "panels.recordsByInstitutionPanel."+b.display.toLowerCase().replace(' ',''), default:b.display)}" size="35"/></g:else>
                                 </td>
                                 <td class="numberColumn"><span class="count">${b.formattedCount}</span></td>
                             </tr>
@@ -31,7 +31,7 @@
                 </div>
             </g:if>
             <g:if test="${institutions.size() > 7}">
-                <p class="paragraph"><button id="moreInstitutionLink" class="btn btn-default btn-small moreLink">More</button></p>
+                <p class="paragraph"><button id="moreInstitutionLink" class="btn btn-default btn-small moreLink">${message(code:'panels.button.more', default:'More')}</button></p>
             </g:if>
         </div>
     </div>

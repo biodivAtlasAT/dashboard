@@ -399,7 +399,6 @@ class MetadataService {
                     it.display = (md.name.size() > 30 && md.acronym) ? md.acronym : md.name
                 }
             }
-
             return results
         })
     }

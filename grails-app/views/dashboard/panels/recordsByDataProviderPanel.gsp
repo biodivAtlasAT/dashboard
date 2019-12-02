@@ -1,7 +1,7 @@
 <div class="col-sm-4 col-md-4" id="dataProvider-topic">
     <div class="panel">
         <div class="panel-heading">
-            <div class="panel-title">Records by data provider<i class="fa fa-info-circle pull-right hidden"></i></div>
+            <div class="panel-title">${message(code:'panels.recordsBydataProviderPanel.title', default:'Records by data provider')}<i class="fa fa-info-circle pull-right hidden"></i></div>
         </div>
         <div class="panel-body">
             <table class="click-thru table table-condensed table-striped table-hover">
@@ -35,7 +35,7 @@
                 </div>
             </g:if>
             <g:if test="${dataProviders.size() > 7}">
-                <p class="paragraph"><button id="moreDataProviderLink" class="btn btn-default btn-small moreLink">More</button></p>
+                <p class="paragraph"><button id="moreDataProviderLink" class="btn btn-default btn-small moreLink">${message(code:'panels.button.more', default:'More')}</button></p>
             </g:if>
         </div>
     </div>

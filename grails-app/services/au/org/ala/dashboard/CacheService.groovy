@@ -89,13 +89,17 @@ log.info("cached results: "+results)
     }
 
     def refreshCache(key, cache, source) {
+        log.info("PPPPPPPPPPPPPPPPPP   ${key}     PPPPPPPPPPPPPPPPPPPPPPPPP")
         log.debug("Adding ${key} key to cache")
         try {
             def value = source.call()
             if (!value || (value instanceof Map && value.errorCode)) {
                 clear key
+                log.info("clear key")
             } else {
                 cache.put(key, [resp: value, time: new Date()])
+                log.info("put key"+value)
+                log.info("New value for key "+cache[key])
             }
         } catch (e) {
             log.error "There was a problem retrieving the dashboard data for key ${key}: ${e.message}"

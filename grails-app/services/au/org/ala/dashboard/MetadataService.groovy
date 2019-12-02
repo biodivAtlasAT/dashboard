@@ -141,10 +141,7 @@ class MetadataService {
             def results = [:]
 
             // earliest record
-            log.info("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_EARLIEST_RECORD}")
             def a = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_EARLIEST_RECORD}")
-            log.info("--------------------------------")
-            log.info("RC: "+a)
             def earliestUuid = a?.occurrences[0]?.uuid
             if (a?.occurrences[0]?.eventDate) {
                 def earliest = new Date(a?.occurrences[0]?.eventDate)
@@ -155,7 +152,6 @@ class MetadataService {
             }
 
             // latest record
-            log.info("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD}")
             def b = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD}")
             def latestUuid = b.occurrences[0].uuid
             def latest = new Date(b.occurrences[0].eventDate)
@@ -163,7 +159,6 @@ class MetadataService {
             results.latest = [uuid: latestUuid, display: latestDate]
 
             // latest record with image
-            log.info("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD_WITH_IMAGE}")
             def bi = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD_WITH_IMAGE}")
             def latestImageUuid = "-1"
             def latestImage = new Date()
@@ -176,7 +171,6 @@ class MetadataService {
             // get counts by century
             [1600, 1700, 1800, 1900, 2000].each { century ->
                 def url = "${BIO_CACHE_URL}/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z]"
-                log.info("${BIO_CACHE_URL}/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z]")
                 def c = webService.getJson(url)
                 results['c' + century] = c.totalRecords
             }
@@ -268,10 +262,8 @@ class MetadataService {
             log.info "used url: "+url
             def conn = new URL(url).openConnection()
             try {
-                // conn.setConnectTimeout(5000)
-                conn.setConnectTimeout(config.getProperty('connection.connectTimeout', Integer, 5000))
-                // conn.setReadTimeout(50000)
-                conn.setReadTimeout(config.getProperty('connection.readTimeout',Integer, 50000 ))
+                conn.setConnectTimeout(5000)
+                conn.setReadTimeout(50000)
                 def json = conn.content.text
                 resp = JSON.parse(json)
             } catch (SocketTimeoutException e) {
@@ -469,8 +461,7 @@ class MetadataService {
     def bieBulkLookup(list) {
         def url = BIE_URL
         log.info("used BIE url: "+url)
-        def data = webService.doPost(url,
-                "/species/guids/bulklookup.json", "", (list as JSON).toString())
+        def data = webService.doPost(url,"/species/guids/bulklookup.json", "", (list as JSON).toString())
         //println "returned from doPost ${data.resp}"
         def results = [:]
         if (!data.error) {
@@ -499,17 +490,12 @@ class MetadataService {
         cacheService.get('loggerTotals', {
             def results = [:]
 
-            log.info("used url loggerTotals: ")
-            log.info("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_TOTALS}")
             // earliest record
             def totals = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_TOTALS}").totals
-log.info("----------------------")
-log.info(""+totals)
             for (k in totals.keys()) {
                 def keyMap = totals[k]
                 results[k] = ["events": format(keyMap["events"] as long), "records": format(keyMap["records"] as long)]
             }
-log.info(""+results)
             return results
         })
     }
@@ -517,8 +503,6 @@ log.info(""+results)
     def getLoggerReasonBreakdown() {
         cacheService.get('loggerReasonBreakdown', {
             def results = []
-            log.info("used url getLoggerReasonBreakdown: ")
-            log.info("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_REASON_BREAKDOWN}")
             // this number includes testing - we need to remove this
             def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_REASON_BREAKDOWN}").all
 
@@ -688,8 +672,6 @@ log.info(""+results)
      * @return [[label: <value>, count: <value<], ...]
      */
     List getStateAndTerritoryRecords() {
-        log.info("-----------------------------------")
-        log.info("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS}")
         return cacheService.get('state_and_territory_records', {
             def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS}")
             ((results.facetResults.find {it.fieldName == 'state'}).fieldResult as ArrayList)
@@ -846,7 +828,6 @@ log.info(""+results)
 
     def getTaxaCounts() {
         return cacheService.get('taxaCounts', {
-
             def acceptedNames = webService.getJson("${BIE_URL}${Constants.WebServices.PARTIAL_URL_ACCEPTED_NAMES}")?.searchResults?.totalRecords
             def synonymNames = webService.getJson("${BIE_URL}${Constants.WebServices.PARTIAL_URL_SYNONYMS}")?.searchResults?.totalRecords
             def acceptedSpeciesNames = webService.getJson("${BIE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_NAMES}")?.searchResults?.totalRecords
@@ -856,8 +837,6 @@ log.info(""+results)
                               synonymNames        : synonymNames,
                               acceptedSpeciesNames: acceptedSpeciesNames,
                               speciesWithRecords  : speciesWithRecords]
-
-
             taxaCounts
         })
     }

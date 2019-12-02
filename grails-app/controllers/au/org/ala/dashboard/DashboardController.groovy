@@ -17,6 +17,7 @@ package au.org.ala.dashboard
 
 import au.com.bytecode.opencsv.CSVWriter
 import grails.converters.JSON
+import org.apache.commons.io.FileUtils
 
 class DashboardController {
 
@@ -158,75 +159,106 @@ class DashboardController {
     /* ---------------------------- data services ---------------------------------*/
 
     def downloadAsCsv = {
+        File dir = new File(grailsApplication.config.csv.temp.dir)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        } else {
+            // remove old files from directory in case that the configuration of the panels to present has changed
+            // otherwise the old files would be zipped too
+            FileUtils.cleanDirectory(dir)
+        }
         /* build files as csv */
 
         // by decade
-        writeCsvFile('by-decade', metadataService.getSpeciesByDecade().collect {
-            [it.decade, it.records, it.species] }, ['Decade','Records','Species'])
+        if(grailsApplication.config.getProperty("panels.recordsAndSpeciesByDecadePanel", Boolean, true))
+            writeCsvFile('by-decade', metadataService.getSpeciesByDecade().collect {
+                [it.decade, it.records, it.species] }, ['Decade','Records','Species'])
 
         // total + dups
-        writeCsvFile('total-records', metadataService.getTotalAndDuplicates().findAll({it.key != 'error'}), [])
+        if(grailsApplication.config.getProperty("panels.recordsPanel", Boolean, true))
+            writeCsvFile('total-records', metadataService.getTotalAndDuplicates().findAll({it.key != 'error'}), [])
 
         // basis of record
-        writeCsvFile('basis-of-record', facetCount('basis_of_record'), ['basisOfRecord','number of records'])
+        if(grailsApplication.config.getProperty("panels.basisRecordsPanel", Boolean, true))
+            writeCsvFile('basis-of-record', facetCount('basis_of_record'), ['basisOfRecord','number of records'])
 
         // records by state
-        recordsBy('state')
+        if(grailsApplication.config.getProperty("panels.statePanel", Boolean, true))
+            recordsBy('state')
 
         // records by kingdom
-        recordsBy('kingdom')
+        if(grailsApplication.config.getProperty("panels.occurrenceTreePanel", Boolean, true))
+            recordsBy('kingdom')
 
-        recordsBy('state_conservation')
+        if(grailsApplication.config.getProperty("panels.conservationStatusPanel", Boolean, true))
+            recordsBy('state_conservation')
 
-        recordsByOtherName('species_group','lifeform')
+        if(grailsApplication.config.getProperty("panels.recordsByLifeFormPanel", Boolean, true))
+            recordsByOtherName('species_group','lifeform')
 
         // collections
-        writeCsvFile('collections', metadataService.getCollectionsByCategory(), ['category','number of collections'])
+        if(grailsApplication.config.getProperty("panels.collectionPanel", Boolean, true))
+            writeCsvFile('collections', metadataService.getCollectionsByCategory(), ['category','number of collections'])
 
         // data providers
-        writeCsvFile('data-providers', metadataService.getDataProviders().collectEntries {[it.name, it.count]},
+        if(grailsApplication.config.getProperty("panels.recordsByDataProviderPanel", Boolean, true))
+            writeCsvFile('data-providers', metadataService.getDataProviders().collectEntries {[it.name, it.count]},
                 ['data provider','number of records'])
 
         // spatial layers
-        def md = metadataService.getSpatialLayers()
-        def spMap = [Total: md.total] + md.groups + md.classification
-        writeCsvFile('spatial-layers', spMap, ['type','number'])
+        if(grailsApplication.config.getProperty("panels.spatialPanel", Boolean, true)) {
+            def md = metadataService.getSpatialLayers()
+            def spMap = [Total: md.total] + md.groups + md.classification
+            writeCsvFile('spatial-layers', spMap, ['type', 'number'])
+        }
 
         // datasets
-        def ds = metadataService.getDatasets()
-        def dsMap = [Total: ds.total] + ds.groups
-        writeCsvFile('datasets', dsMap, ['type','number'])
+        if(grailsApplication.config.getProperty("panels.datasetsPanel", Boolean, true)) {
+            def ds = metadataService.getDatasets()
+            def dsMap = [Total: ds.total] + ds.groups
+            writeCsvFile('datasets', dsMap, ['type', 'number'])
+        }
 
         // records by century
-        def rc = metadataService.getDateStats()
-        def rcList =
-        ['c1600','c1700','c1800','c1900','c2000'].collect { [it, rc[it]] }
-        writeCsvFile('records-by-century', rcList, ['century','number'])
+
+        if(grailsApplication.config.getProperty("panels.dateRecordsPanel", Boolean, true)) {
+            def rc = metadataService.getDateStats()
+            def rcList =
+                    ['c1600', 'c1700', 'c1800', 'c1900', 'c2000'].collect { [it, rc[it]] }
+            writeCsvFile('records-by-century', rcList, ['century', 'number'])
+        }
 
         // records for types
-        def ty = metadataService.getTypeStats()
-        def tyList = ty.collectEntries { k,v ->
-            if (k == 'withImage') {
-                v.collectEntries { l,w -> [(l + ' (with image)'): w]}
+
+        if(grailsApplication.config.getProperty("panels.typeSpecimensPanel", Boolean, true)) {
+            def ty = metadataService.getTypeStats()
+            def tyList = ty.collectEntries { k, v ->
+                if (k == 'withImage') {
+                    v.collectEntries { l, w -> [(l + ' (with image)'): w] }
+                } else {
+                    ["${k}": v]
+                }
             }
-            else {
-                ["${k}": v]
-            }
+            writeCsvFile('type-status', tyList, ['type status', 'number'])
         }
-        writeCsvFile('type-status', tyList, ['type status', 'number'])
 
         // taxa counts
-        writeCsvFile('names', metadataService.getTaxaCounts(), [])
+        if(grailsApplication.config.getProperty("panels.nslPanel", Boolean, true))
+            writeCsvFile('names', metadataService.getTaxaCounts(), [])
 
         // bhl counts
-        writeCsvFile('biodiversity-heritage-library', metadataService.getBHLCounts(), [])
+        if(grailsApplication.config.getProperty("panels.bhlPanel", Boolean, true))
+            writeCsvFile('biodiversity-heritage-library', metadataService.getBHLCounts(), [])
 
         // identify life counts
-        writeCsvFile('identify-life', metadataService.getIdentifyLifeCounts(), [])
+        // not shown in panels --> therefore also excluded!
+        // writeCsvFile('identify-life', metadataService.getIdentifyLifeCounts(), [])
 
         // vp counts
-        writeCsvFile('biodiversity-volunteer-portal', metadataService.get('volunteerPortalCounts'), [])
+        if(grailsApplication.config.getProperty("panels.volunteerPortalPanel", Boolean, true)) {
 
+            writeCsvFile('biodiversity-volunteer-portal', metadataService.get('volunteerPortalCounts'), [])
+        }
         /* zip files */
         new AntBuilder().zip(destfile: grailsApplication.config.zip.temp.dir+"dashboard.zip", basedir: grailsApplication.config.csv.temp.dir, includes: '**/*.csv')
 
@@ -239,9 +271,7 @@ class DashboardController {
 
     def writeCsvFile(filename, values, header) {
         File dir = new File(grailsApplication.config.csv.temp.dir)
-        if (!dir.exists()) {
-            dir.mkdirs()
-        }
+
         new File(dir.absolutePath + '/' + filename + '.csv').withWriter { out ->
             def csv = new CSVWriter(out/*, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER*/)
             if (header) { csv.writeNext(header as String[]) }
@@ -286,33 +316,48 @@ class DashboardController {
     def data() {
         
         // build output
-        def d = [
-                totalRecords: metadataService.getTotalAndDuplicates().findAll({it.key != 'error'}),
-                basisOfRecord: facetCount('basis_of_record'),
-                collections: metadataService.getCollectionsByCategory(),
-                datasets: metadataService.getDatasets(),
-                recordsByDataProvider:
-                        metadataService.getDataProviders().collectEntries {[it.display, it.count]},
-                recordsByInstitution:
-                        metadataService.getInstitutions().collectEntries {[it.display, it.count]},
-                recordsByDate: metadataService.getDateStats(),
-                recordsByState: facetCount('state'),
-                recordsByKingdom: facetCount('kingdom'),
-                recordsByConservationStatus: facetCount('state_conservation'),
-                byDecade: metadataService.getSpeciesByDecade(),
-                recordsByLifeform: facetCount('species_group'),
-                spatialLayers: metadataService.getSpatialLayers(),
-                typeCounts: metadataService.getTypeStats(),
-                taxaCounts: metadataService.getTaxaCounts(),
-                bhlCounts: metadataService.getBHLCounts(),
-                volunteerPortalCounts: metadataService.getVolunteerStats(),
-                occurrenceDownloadByReason: metadataService.getLoggerReasonBreakdown().collect {["Download Reason": it[0], "Events": it[1].trim(), "Records": it[2].trim()]}]
-                //volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
-                //identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
-        ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',
-         'Fishes','Insects','Amphibians','Bacteria','Fungi'].each {
-            d['mostRecorded' + it] = most(it)
-        }
+        def d = [:]
+
+        if(grailsApplication.config.getProperty("panels.recordsPanel", Boolean, true))
+            d.totalRecords = metadataService.getTotalAndDuplicates().findAll({it.key != 'error'})
+        if(grailsApplication.config.getProperty("panels.basisRecordsPanel", Boolean, true))
+            d.basisOfRecord = facetCount('basis_of_record')
+        if(grailsApplication.config.getProperty("panels.collectionPanel", Boolean, true))
+            d.collections = metadataService.getCollectionsByCategory()
+        if(grailsApplication.config.getProperty("panels.datasetsPanel", Boolean, true))
+            d.datasets = metadataService.getDatasets()
+        if(grailsApplication.config.getProperty("panels.recordsByDataProviderPanel", Boolean, true))
+            d.recordsByDataProvider = metadataService.getDataProviders().collectEntries {[it.display, it.count]}
+        if(grailsApplication.config.getProperty("panels.recordsByInstitutionPanel", Boolean, true))
+            d.recordsByInstitution = metadataService.getInstitutions().collectEntries {[it.display, it.count]}
+        if(grailsApplication.config.getProperty("panels.dateRecordsPanel", Boolean, true))
+            d.recordsByDate = metadataService.getDateStats()
+        if(grailsApplication.config.getProperty("panels.statePanel", Boolean, true))
+            d.recordsByState = facetCount('state')
+        if(grailsApplication.config.getProperty("panels.occurrenceTreePanel", Boolean, true))
+            d.recordsByKingdom = facetCount('kingdom')
+        if(grailsApplication.config.getProperty("panels.conservationStatusPanel", Boolean, true))
+            d.recordsByConservationStatus = facetCount('state_conservation')
+        if(grailsApplication.config.getProperty("panels.recordsAndSpeciesByDecadePanel", Boolean, true))
+            d.byDecade = metadataService.getSpeciesByDecade()
+        if(grailsApplication.config.getProperty("panels.recordsByLifeFormPanel", Boolean, true))
+            d.recordsByLifeform = facetCount('species_group')
+        if(grailsApplication.config.getProperty("panels.spatialPanel", Boolean, true))
+            d.spatialLayers = metadataService.getSpatialLayers()
+        if(grailsApplication.config.getProperty("panels.typeSpecimensPanel", Boolean, true))
+            d.typeCounts = metadataService.getTypeStats()
+        if(grailsApplication.config.getProperty("panels.nslPanel", Boolean, true))
+            d.taxaCounts = metadataService.getTaxaCounts()
+        if(grailsApplication.config.getProperty("panels.bhlPanel", Boolean, true))
+            d.bhlCounts = metadataService.getBHLCounts()
+        if(grailsApplication.config.getProperty("panels.volunteerPortalPanel", Boolean, true))
+            d.volunteerPortalCounts = metadataService.getVolunteerStats()
+        if(grailsApplication.config.getProperty("panels.downloadsByReasonPanel", Boolean, true))
+            d.occurrenceDownloadByReason = metadataService.getLoggerReasonBreakdown().collect {["Download Reason": it[0], "Events": it[1].trim(), "Records": it[2].trim()]}
+        if(grailsApplication.config.getProperty("panels.mostRecordedSpeciesPanel", Boolean, true))
+            ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods', 'Fishes','Insects','Amphibians','Bacteria','Fungi'].each {
+                d['mostRecorded' + it] = most(it)
+            }
 
         render d as JSON
     }

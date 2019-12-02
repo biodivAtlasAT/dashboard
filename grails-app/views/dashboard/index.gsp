@@ -21,13 +21,13 @@
                     Dashboard <i id="show-error-button" data-html="true" data-title="Panel errors" data-trigger="hover" data-content="" class="fa fa-times-circle fa-lg initiallyHidden link"></i>
                 </li>
             </ul>
-            <p><i class="fa fa-exclamation-circle fa-lg"></i> You can rearrange topics by clicking on the panel headers and dragging them.</p>
+            <p><i class="fa fa-exclamation-circle fa-lg"></i> ${message(code:'basic.info.label', default:'You can rearrange topics by clicking on the panel headers and dragging them.')}</p>
         </div>
         <div id="buttonGroup" class="pull-right col-sm-6 col-md-6">
             <div id="headerButtons">
-                <a class="btn btn-primary " id="resetLayout"><i class="fa fa-refresh fa-inverse"></i> Reset layout</a>
-                <a class="btn btn-primary " id="downloadCsv"><i class="fa fa-download fa-inverse"></i> Download as CSV</a>
-                <a class="btn btn-primary " id="showJson"><i class="fa fa-code fa-inverse"></i> Show raw data</a>
+                <a class="btn btn-primary " id="resetLayout"><i class="fa fa-refresh fa-inverse"></i> ${message(code:'basic.reset.button', default:'Reset layout')}</a>
+                <a class="btn btn-primary " id="downloadCsv"><i class="fa fa-download fa-inverse"></i> ${message(code:'basic.download.button', default:'Download as CSV')}</a>
+                <a class="btn btn-primary " id="showJson"><i class="fa fa-code fa-inverse"></i> ${message(code:'basic.rawdata.button', default:'Show raw data')}</a>
             </div>
         </div>
     </div>

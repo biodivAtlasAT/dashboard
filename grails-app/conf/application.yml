@@ -150,7 +150,7 @@ biocache:
   webappURL: "https://biocache.biodiversityatlas.at"
 
 ala:
-  baseURL: "https://www.ala.org.au"
+  baseURL: "https://bie.biodiversityatlas.at"
 
 bie:
   baseURL: "https://bie-ws.biodiversityatlas.at"
@@ -182,8 +182,8 @@ bhl:
   statsSelector: ".onlinestats"
 
 headerAndFooter:
-  baseURL: "https://www.ala.org.au/commonui-bs3"
-  #baseURL: "https://core.biodiversityatlas.at"
+  #baseURL: "https://www.ala.org.au/commonui-bs3"
+  baseURL: "https://core.biodiversityatlas.at"
 
 dashboard:
     data:
@@ -196,9 +196,9 @@ zip:
     temp:
         dir: "/data/dashboard/zip/"
 
-connection:
-    connectTimeout: 10000
-    readTimeout: 100000
+#connection:
+#    connectTimeout: 10000
+#    readTimeout: 100000
 
 panels:
   recordsPanel: true
@@ -206,7 +206,7 @@ panels:
   basisRecordsPanel: false
   collectionPanel: true
   dateRecordsPanel: true
-  nslPanel: true
+  nslPanel: false
   spatialPanel: true
   statePanel: true
   mostRecordedSpeciesPanel: true
@@ -220,14 +220,14 @@ panels:
   occurrenceTreePanel: true
   recordsByLifeFormPanel: true
   recordsAndSpeciesByDecadePanel: true
-  usageStatisticsPanel: true
+  usageStatisticsPanel: false
   downloadsByReasonPanel: true
-  downloadsBySourcePanel: true
+  downloadsBySourcePanel: false
   downloadsByUserTypePanel: true
   speciesImagesPanel: false
 
-# final settings for austrai
-    #   recordsPanel: true
+# final settings for austria
+    #  recordsPanel: true
     # datasetsPanel: true
     # basisRecordsPanel: false
     # collectionPanel: true
@@ -246,8 +246,8 @@ panels:
     # occurrenceTreePanel: true
     # recordsByLifeFormPanel: true
     # recordsAndSpeciesByDecadePanel: true
-    # usageStatisticsPanel: true
+    # usageStatisticsPanel: false
     # downloadsByReasonPanel: true
-    # downloadsBySourcePanel: true
+    # downloadsBySourcePanel: false
     # downloadsByUserTypePanel: true
   # speciesImagesPanel: false

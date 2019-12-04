@@ -48,7 +48,7 @@ var dashboard = {
         //reasons
         $('#loggerReasonBreakdownTable .hideableRow').hide();
         $('#showAllLoggerReasons').on('click touch', function(){
-            $('#showAllLoggerReasons').html($('#loggerReasonBreakdownTable tr.hideableRow:visible').length ? 'More' : 'Less');
+            $('#showAllLoggerReasons').html($('#loggerReasonBreakdownTable tr.hideableRow:visible').length ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
             $('#loggerReasonBreakdownTable .hideableRow').slideToggle(300,  function() {
                 jQuery.fn.matchHeight._update();
             });
@@ -163,7 +163,7 @@ var dashboard = {
                     jQuery.fn.matchHeight._update();
                 });
             }
-            $('#showAllLifeforms').html($('#lifeformsTable:visible').length ? 'Less' : 'More');
+            $('#showAllLifeforms').html($('#lifeformsTable:visible').length ? moreLessTranslations.tr_less : moreLessTranslations.tr_more);
         });
     },
 

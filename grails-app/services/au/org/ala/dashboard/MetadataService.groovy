@@ -13,8 +13,11 @@ import javax.annotation.PostConstruct
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
-class MetadataService {
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder;
 
+class MetadataService {
+    MessageSource messageSource
     def webService, cacheService, grailsApplication
 
     String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL, IMAGES_URL, USERDETAILS_URL
@@ -216,6 +219,8 @@ class MetadataService {
      * @return a list of maps with the following format [decade: <value>, records: <value>, species: <value>]
      */
     List getSpeciesByDecade() {
+        def suff = messageSource.getMessage("panels.recordsAndSpeciesByDecadePanel.column.decadesSuffix",null, "s", LocaleContextHolder.getLocale())
+        def before1850 = messageSource.getMessage("panels.recordsAndSpeciesByDecadePanel.column.before1850",null, "before 1850", LocaleContextHolder.getLocale())
         return cacheService.get("speciesByDecade", {
 
             String baseUrl = "${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_BY_DECADE}"
@@ -225,10 +230,10 @@ class MetadataService {
                 def from, decade
                 if (it == 184) {
                     from = '*'
-                    decade = 'before 1850'
+                    decade = before1850
                 } else {
                     from = (it.toString() + '0-01-01T00:00:00Z')
-                    decade = it.toString() + '0s'
+                    decade = it.toString() + '0' +suff
                 }
                 def to = (it.toString() + '9-12-31T23:59:59Z')
                 def url = baseUrl + '[' + from + '+TO+' + to + ']'
@@ -237,7 +242,6 @@ class MetadataService {
                 def totals = result.find { it.name == 'ALL_SPECIES' }
                 data << [decade: decade, records: totals.count, species: totals.speciesCount]
             }
-
             return data
         })
     }
@@ -504,7 +508,7 @@ class MetadataService {
             def results = []
             // this number includes testing - we need to remove this
             def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_REASON_BREAKDOWN}").all
-
+            log.info("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_REASON_BREAKDOWN}")
             //order by counts
             def sortedBreakdowns = allTimeReasonBreakdown.reasonBreakdown.sort { -it.value["events"] }
 
@@ -536,14 +540,15 @@ class MetadataService {
 
             for (k in sortedBreakdowns.keySet()) {
                 def keyMap = sortedBreakdowns[k]
-                results.add([StringUtils.capitalize(k), format(keyMap["events"] as long), format(keyMap["records"] as long)])
+                def newKey = k.toLowerCase().replace(' ','.').replace('/','.')
+                def descr = messageSource.getMessage("panels.downloadsByReasonPanel."+newKey,null, newKey, LocaleContextHolder.getLocale())
+                results.add([StringUtils.capitalize(descr), format(keyMap["events"] as long), format(keyMap["records"] as long)])
             }
 
             results.add(["TOTAL",
                          format((allTimeReasonBreakdown.events as long) - testingEvents),
                          format((allTimeReasonBreakdown.records as long) - testingRecords)]
             )
-
             return results
         })
     }

@@ -30,13 +30,14 @@ class ChartsController {
         def data = stateAndTerritoryRecords.collect { record ->
             [message(code:"panels.statePanel."+record.i18nCode, default:record.label) , record.count]
         }
-log.info("-----------------------------"+data)
         [columns: columns, data: data]
     }
 
     def recordsAndSpeciesByDecade = {
         List recordsAndSpeciesByDecade = metadataService.getSpeciesByDecade()
-        def columns = [['string', 'Decade'], ['number', 'Records'], ['number', 'Species']]
+        def tr_Records = message(code:"panels.recordsAndSpeciesByDecadePanel.column.records", default:"Records")
+        def tr_Species = message(code:"panels.recordsAndSpeciesByDecadePanel.column.species", default:"Species")
+        def columns = [['string', 'Decade'], ['number', tr_Records], ['number', tr_Species]]
         def data =recordsAndSpeciesByDecade.collect {[it.decade, it.records, it.species]}
 
         [columns: columns, data: data]

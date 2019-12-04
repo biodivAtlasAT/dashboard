@@ -10,6 +10,7 @@
     <link href="${grailsApplication.config.skin?.favicon?:'https://www.ala.org.au/wp-content/themes/ala2011/images/favicon.ico'}" rel="shortcut icon" type="image/x-icon"/>
     <gvisualization:apiImport/>
     <asset:stylesheet src="dashboard.css" />
+
 </head>
 
 <div class="dashboard">
@@ -31,9 +32,13 @@
             </div>
         </div>
     </div>
-
+    <!-- style only temporary -->
+    <style>
+    .panel {
+        border: 1px solid #dddddd;
+    }
+    </style>
     <div id="floatContainer">
-
 
     <g:if test="${grailsApplication.config.getProperty("panels.recordsPanel", Boolean, true)}" >
         <g:include controller="dashboard" action="recordsPanel"/>

@@ -22,7 +22,7 @@ grails:
             # Disabled by default for performance reasons
             events: false
 #default_config: "/data/dashboard/config/dashboard-config.properties"
-default_config: "D:/reinhardt/firma/Biodiversity/working/dashboard-config.properties"
+default_config: "C:/reinhardt/firma/Biodiversity/working/dashboard-config.properties"
 info:
     app:
         name: '@info.app.name@'
@@ -123,13 +123,13 @@ environments:
                 appServerName: "http://localhost:8080/dashboard"
         dashboard:
             data:
-                file: "D:/reinhardt/firma/Biodiversity/working/data.json"
+                file: "C:/reinhardt/firma/Biodiversity/working/data.json"
         csv:
             temp:
-                dir: "D:/reinhardt/firma/Biodiversity/working/csv/"
+                dir: "c:/reinhardt/firma/Biodiversity/working/csv/"
         zip:
             temp:
-                dir: "D:/reinhardt/firma/Biodiversity/working/zip/"
+                dir: "c:/reinhardt/firma/Biodiversity/working/zip/"
     test:
         grails:
             serverURL: "http://nectar-dashboard-test.ala.org.au/"
@@ -209,7 +209,7 @@ panels:
   nslPanel: false
   spatialPanel: true
   statePanel: true
-  mostRecordedSpeciesPanel: true
+  mostRecordedSpeciesPanel: false
   typeSpecimensPanel: false
   barcodeOfLifePanel: false
   bhlPanel: false
@@ -235,7 +235,7 @@ panels:
     # nslPanel: false
     # spatialPanel: true
     # statePanel: true
-    # mostRecordedSpeciesPanel: true
+    # mostRecordedSpeciesPanel: fals
     # typeSpecimensPanel: false
     # barcodeOfLifePanel: false
     # bhlPanel: false

@@ -618,12 +618,16 @@ class MetadataService {
 
             // earliest record
             def allTimeEmailBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_EMAIL_BREAKDOWN}").all
-
+            def sumEvents = 0
+            def sumRecords = 0
             ["edu", "gov", "other", "unspecified"].each {
                 def keyMap = allTimeEmailBreakdown.emailBreakdown[it]
                 results[it] = ["events": format(keyMap["events"] as long), "records": format(keyMap["records"] as long)]
+                sumEvents += keyMap["events"] as long
+                sumRecords += keyMap["records"] as long
             }
-
+            results['total'] = ["events": format(sumEvents), "records": format(sumRecords)]
+log.info("!!!!!!!!!!!!!!!!!"+results)
             return results
         })
     }

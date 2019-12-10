@@ -9,7 +9,7 @@
         <tr><td id="${dateStats?.latest?.uuid}">${message(code:'panels.dateRecordsPanel.latestRecord', default:'Latest record')}</td>
           <td class="numberColumn"><span
                   class="count">${dateStats?.latest?.display}</span></td></tr>
-        <g:if test="${dateStats.latestImage.uuid == '-1'}">
+        <g:if test="${dateStats.latestImage.uuid != '-1'}">
           <tr><td id="${dateStats?.latestImage?.uuid}">${message(code:'panels.dateRecordsPanel.lastImage', default:'Last image added')}</td>
             <td class="numberColumn"><span
                     class="count">${dateStats?.latestImage?.display}</span></td></tr>

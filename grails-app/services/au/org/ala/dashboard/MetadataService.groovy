@@ -162,6 +162,9 @@ class MetadataService {
             results.latest = [uuid: latestUuid, display: latestDate]
 
             // latest record with image
+log.info("===================================================")
+log.info("${BIO_CACHE_URL}+${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD_WITH_IMAGE}")
+log.info("===================================================")
             def bi = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD_WITH_IMAGE}")
             def latestImageUuid = "-1"
             def latestImage = new Date()
@@ -627,7 +630,6 @@ class MetadataService {
                 sumRecords += keyMap["records"] as long
             }
             results['total'] = ["events": format(sumEvents), "records": format(sumRecords)]
-log.info("!!!!!!!!!!!!!!!!!"+results)
             return results
         })
     }

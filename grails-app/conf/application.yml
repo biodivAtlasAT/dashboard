@@ -123,13 +123,13 @@ environments:
                 appServerName: "http://localhost:8080/dashboard"
         dashboard:
             data:
-                file: "C:/reinhardt/firma/Biodiversity/working/data.json"
+                file: "d:/reinhardt/firma/Biodiversity/working/data.json"
         csv:
             temp:
-                dir: "c:/reinhardt/firma/Biodiversity/working/csv/"
+                dir: "d:/reinhardt/firma/Biodiversity/working/csv/"
         zip:
             temp:
-                dir: "c:/reinhardt/firma/Biodiversity/working/zip/"
+                dir: "d:/reinhardt/firma/Biodiversity/working/zip/"
     test:
         grails:
             serverURL: "http://nectar-dashboard-test.ala.org.au/"
@@ -147,7 +147,7 @@ biocache:
   #baseURL: "https://biocache.ala.org.au/ws"
   #webappURL: "https://biocache.ala.org.au"
   baseURL: "https://biocache-ws.biodiversityatlas.at"
-  webappURL: "https://biocache.biodiversityatlas.at"
+  webappURL: "https://biocache-ws.biodiversityatlas.at"
 
 ala:
   baseURL: "https://bie.biodiversityatlas.at"
@@ -205,7 +205,7 @@ panels:
   datasetsPanel: true
   basisRecordsPanel: false
   collectionPanel: true
-  dateRecordsPanel: true
+  dateRecordsPanel: false
   nslPanel: false
   spatialPanel: true
   statePanel: true

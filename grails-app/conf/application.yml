@@ -21,8 +21,9 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+
 default_config: "/data/dashboard/config/dashboard-config.properties"
-#default_config: "C:/reinhardt/firma/Biodiversity/working/dashboard-config.properties"
+
 info:
     app:
         name: '@info.app.name@'
@@ -106,6 +107,7 @@ skin:
     fluidLayout: true
     orgNameLong: "Biodiversitätsatlas Österreich"
     orgNameShort: "BAÖ"
+
 privacyPolicy: "https://www.ala.org.au/about/terms-of-use/privacy-policy/"
 
 ---
@@ -124,13 +126,13 @@ environments:
                 appServerName: "http://localhost:8080/dashboard"
         dashboard:
             data:
-                file: "c:/reinhardt/firma/Biodiversity/working/data.json"
+                file: "d:/reinhardt/firma/Biodiversity/working/data.json"
         csv:
             temp:
-                dir: "c:/reinhardt/firma/Biodiversity/working/csv/"
+                dir: "d:/reinhardt/firma/Biodiversity/working/csv/"
         zip:
             temp:
-                dir: "c:/reinhardt/firma/Biodiversity/working/zip/"
+                dir: "d:/reinhardt/firma/Biodiversity/working/zip/"
     test:
         grails:
             serverURL: "http://nectar-dashboard-test.ala.org.au/"
@@ -145,8 +147,6 @@ environments:
                 appServerName: "https://auth.ala.org.au"
 
 biocache:
-  #baseURL: "https://biocache.ala.org.au/ws"
-  #webappURL: "https://biocache.ala.org.au"
   baseURL: "https://biocache-ws.biodiversityatlas.at"
   webappURL: "https://biocache.biodiversityatlas.at"
 
@@ -158,22 +158,18 @@ bie:
   searchPath: "/search"
 
 spatial:
-  #baseURL: "http://spatial.ala.org.au"
   baseURL: "https://spatial.biodiversityatlas.at/ws"
 
 logger:
-  #baseURL: "https://logger.ala.org.au"
   baseURL: "https://logger.biodiversityatlas.at"
 
 collectory:
-  #baseURL: "https://collections.ala.org.au"
   baseURL: "https://collectory.biodiversityatlas.at"
 
 volunteer:
   baseURL: "https://volunteer.ala.org.au"
 
 images:
-  #baseURL: "https://images.ala.org.au"
   baseURL: "https://images.biodiversityatlas.at"
 
 userDetails:
@@ -184,7 +180,6 @@ bhl:
   statsSelector: ".onlinestats"
 
 headerAndFooter:
-  #baseURL: "https://www.ala.org.au/commonui-bs3"
   baseURL: "https://core.biodiversityatlas.at"
 
 dashboard:
@@ -198,10 +193,7 @@ zip:
     temp:
         dir: "/data/dashboard/zip/"
 
-#connection:
-#    connectTimeout: 10000
-#    readTimeout: 100000
-
+# final settings for austria
 panels:
   recordsPanel: true
   datasetsPanel: true
@@ -228,28 +220,3 @@ panels:
   downloadsByUserTypePanel: true
   speciesImagesPanel: false
 
-# final settings for austria
-    #  recordsPanel: true
-    # datasetsPanel: true
-    # basisRecordsPanel: false
-    # collectionPanel: true
-    # dateRecordsPanel: true
-    # nslPanel: false
-    # spatialPanel: true
-    # statePanel: true
-    # mostRecordedSpeciesPanel: fals
-    # typeSpecimensPanel: false
-    # barcodeOfLifePanel: false
-    # bhlPanel: false
-    # volunteerPortalPanel: false
-    # conservationStatusPanel: true
-    # recordsByDataProviderPanel: true
-    # recordsByInstitutionPanel: true
-    # occurrenceTreePanel: true
-    # recordsByLifeFormPanel: true
-    # recordsAndSpeciesByDecadePanel: true
-    # usageStatisticsPanel: false
-    # downloadsByReasonPanel: true
-    # downloadsBySourcePanel: false
-    # downloadsByUserTypePanel: true
-  # speciesImagesPanel: false

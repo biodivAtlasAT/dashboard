@@ -104,9 +104,9 @@ function initTaxonTree(treeOptions) {
             checkbox: {override_ui:true},
             contextmenu: {select_node: false, show_at_node: false, items: {
                 // records: {label: tr_showRecords, action: function(obj) {showRecords(obj, query);}},
-                records: {label: tr_showRecords, action: function(obj) {alert("Verlinkung erst in der nächsten Ausbaustufe des Biodiversity-Atlas");}},
+                records: {label: tr_showRecords, action: function(obj) {alert("Verlinkung erst in der naechsten Ausbaustufe des Biodiversity-Atlas");}},
                 //bie: {label: tr_showInformation, action: function(obj) {showBie(obj);}},
-                bie: {label: tr_showInformation, action: function(obj) {alert("Verlinkung erst in der nächsten Ausbaustufe des Biodiversity-Atlas");}},
+                bie: {label: tr_showInformation, action: function(obj) {alert("Verlinkung erst in der naechsten Ausbaustufe des Biodiversity-Atlas");}},
                 create: false,
                 rename: false,
                 remove: false,

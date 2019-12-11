@@ -21,8 +21,8 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
-#default_config: "/data/dashboard/config/dashboard-config.properties"
-default_config: "C:/reinhardt/firma/Biodiversity/working/dashboard-config.properties"
+default_config: "/data/dashboard/config/dashboard-config.properties"
+#default_config: "C:/reinhardt/firma/Biodiversity/working/dashboard-config.properties"
 info:
     app:
         name: '@info.app.name@'
@@ -101,6 +101,7 @@ endpoints:
 
 ---
 skin:
+    homeUrl: "https://core.biodiversityatlas.at"
     layout: "ala-main"
     fluidLayout: true
     orgNameLong: "Biodiversitätsatlas Österreich"
@@ -123,13 +124,13 @@ environments:
                 appServerName: "http://localhost:8080/dashboard"
         dashboard:
             data:
-                file: "d:/reinhardt/firma/Biodiversity/working/data.json"
+                file: "c:/reinhardt/firma/Biodiversity/working/data.json"
         csv:
             temp:
-                dir: "d:/reinhardt/firma/Biodiversity/working/csv/"
+                dir: "c:/reinhardt/firma/Biodiversity/working/csv/"
         zip:
             temp:
-                dir: "d:/reinhardt/firma/Biodiversity/working/zip/"
+                dir: "c:/reinhardt/firma/Biodiversity/working/zip/"
     test:
         grails:
             serverURL: "http://nectar-dashboard-test.ala.org.au/"
@@ -147,7 +148,7 @@ biocache:
   #baseURL: "https://biocache.ala.org.au/ws"
   #webappURL: "https://biocache.ala.org.au"
   baseURL: "https://biocache-ws.biodiversityatlas.at"
-  webappURL: "https://biocache-ws.biodiversityatlas.at"
+  webappURL: "https://biocache.biodiversityatlas.at"
 
 ala:
   baseURL: "https://bie.biodiversityatlas.at"
@@ -172,10 +173,11 @@ volunteer:
   baseURL: "https://volunteer.ala.org.au"
 
 images:
-  baseURL: "https://images.ala.org.au"
+  #baseURL: "https://images.ala.org.au"
+  baseURL: "https://images.biodiversityatlas.at"
 
 userDetails:
-  baseURL: "https://auth.ala.org.au/userdetails"
+  baseURL: "https://auth.biodiversityatlas.at/userdetails"
 
 bhl:
   baseURL: "http://biodiversitylibrary.org/"
@@ -205,7 +207,7 @@ panels:
   datasetsPanel: true
   basisRecordsPanel: false
   collectionPanel: true
-  dateRecordsPanel: false
+  dateRecordsPanel: true
   nslPanel: false
   spatialPanel: true
   statePanel: true

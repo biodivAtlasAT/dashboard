@@ -1,4 +1,4 @@
-<div class="col-sm-4 col-md-4" id="datasets-topic">
+<div class="col-sm-4 col-md-4" id="datasets-topic_tmp">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">
@@ -24,7 +24,7 @@
                 <tr class="link">
                     <td id="records">${message(code:'panels.datasetsPanel.dataResources', default:'Data Resources')}</td>
                     <td class="numberColumn"><span class="count"><db:formatNumber
-                            value="${datasets.groups.records}"/></span>
+                            value="${datasets.groups?.records}"/></span>
                     </td>
                 </tr>
                 <tr class="link">
@@ -33,7 +33,7 @@
                             value="${datasets.dataAvailableCount}"/></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="link">
                     <td class="text-indent" id="description">&#8226; ${message(code:'panels.datasetsPanel.descriptionOnly', default:'Description only')}</td>
                     <td class="numberColumn"><span class="count"><db:formatNumber
                             value="${datasets.descriptionOnlyCount}"/></span>

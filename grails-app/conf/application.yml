@@ -102,7 +102,7 @@ endpoints:
 
 ---
 skin:
-    homeUrl: "https://core.biodiversityatlas.at"
+    homeUrl: "https://biodiversityatlas.at"
     layout: "ala-main"
     fluidLayout: true
     orgNameLong: "Biodiversitätsatlas Österreich"

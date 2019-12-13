@@ -343,7 +343,8 @@ log.info("===================================================")
                     ""
             log.info"used url: "+ baseUrl
             def data = []
-            ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Listed under FFG Act', 'Extinct', 'Parent Species (Unofficial)'].each {
+                ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Extinct'].each {
+//            ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Listed under FFG Act', 'Extinct', 'Parent Species (Unofficial)'].each {
                 def url = baseUrl + '%22' + URLEncoder.encode(it) + '%22'
                 log.info"used url: "+it+": "+ url
                 def json = new URL(url).text

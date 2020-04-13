@@ -8,6 +8,7 @@ grails:
                 - file:/data/dashboard/config/dashboard-config.properties
                 - file:/data/dashboard/config/dashboard-config.yml
                 - file:/data/dashboard/config/dashboard-config.groovy
+                - file:D:\\reinhardt\\firma\\Biodiversity\\working\\data\\dashboard\\dashboard-config.properties
     spring:
         transactionManagement:
             proxies: false
@@ -22,7 +23,7 @@ grails:
             # Disabled by default for performance reasons
             events: false
 
-default_config: "/data/dashboard/config/dashboard-config.properties"
+//default_config: "/data/dashboard/config/dashboard-config.properties"
 
 info:
     app:
@@ -120,19 +121,19 @@ security:
 environments:
     development:
         grails:
-            serverURL: "http://localhost:8080/dashboard"
+            serverURL: "http://localhost:8080"
         security:
             cas:
-                appServerName: "http://localhost:8080/dashboard"
+                appServerName: "http://localhost:8080"
         dashboard:
             data:
-                file: "d:/reinhardt/firma/Biodiversity/working/data.json"
+                file: "d:/reinhardt/firma/Biodiversity/working/data/dashboard/data.json"
         csv:
             temp:
-                dir: "d:/reinhardt/firma/Biodiversity/working/csv/"
+                dir: "d:/reinhardt/firma/Biodiversity/working/data/dashboard/csv/"
         zip:
             temp:
-                dir: "d:/reinhardt/firma/Biodiversity/working/zip/"
+                dir: "d:/reinhardt/firma/Biodiversity/working/data/dashboard/zip/"
     test:
         grails:
             serverURL: "http://nectar-dashboard-test.ala.org.au/"

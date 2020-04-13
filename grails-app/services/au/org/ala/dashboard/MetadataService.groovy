@@ -260,8 +260,8 @@ log.info("===================================================")
             log.info "looking up datasets"
             def resp = null
 
-            int institutionCount = JSON.parse(new URL("${COLLECTORY_URL}${Constants.WebServices.PARTIAL_URL_INSTITUTION_COUNT}")?.text?:"{}")?.total
-            int collectionCount = JSON.parse(new URL("${COLLECTORY_URL}${Constants.WebServices.PARTIAL_URL_COLLECTION_COUNT}")?.text?:"{}")?.total
+            def partnerCountJson = new JsonSlurper().parseText(new URL("${COLLECTORY_URL}${Constants.WebServices.PARTIAL_URL_PARTNER_COUNT}")?.text?:"{}")
+            int partnerCount = partnerCountJson?.features?.size?:0
             int dataAvailableCount = JSON.parse(new URL("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATASETS_CONTAIN_DATA}")?.text?:"{}")[0]?.count?:0
             Config config = grailsApplication.config
 
@@ -288,7 +288,7 @@ log.info("===================================================")
             def last = allDRs.last()
 
             //def results = [total: resp.total, groups: resp.groups, last: last]
-            def results = [total: resp.total, institutionCount: institutionCount, collectionCount: collectionCount, dataAvailableCount: dataAvailableCount, descriptionOnlyCount: (resp.groups.records - dataAvailableCount), groups: resp.groups, last: last]
+            def results = [total: resp.total, partnerCount: partnerCount,  institutionCount: institutionCount, collectionCount: collectionCount, dataAvailableCount: dataAvailableCount, descriptionOnlyCount: (resp.groups.records - dataAvailableCount), groups: resp.groups, last: last]
 
             return results
         })

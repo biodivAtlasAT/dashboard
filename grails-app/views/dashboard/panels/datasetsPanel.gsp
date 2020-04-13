@@ -10,15 +10,13 @@
         <div class="panel-body">
             <table class="table table-condensed table-striped table-hover">
                 <tr class="link">
-                    <td id="institutions">${message(code:'panels.datasetsPanel.institutions', default:'Institutions')}</td>
-                    <td class="numberColumn"><span class="count"><db:formatNumber
-                            value="${datasets.institutionCount}"/></span>
+                    <td id="partners">
+                        <a href="${grailsApplication.config.collectory.baseURL}">${message(code:'panels.datasetsPanel.partners', default:'Partner')}</a>
                     </td>
-                </tr>
-                <tr class="link">
-                    <td id="collections">${message(code:'panels.datasetsPanel.collections', default:'Collections')}</td>
-                    <td class="numberColumn"><span class="count"><db:formatNumber
-                            value="${datasets.collectionCount}"/></span>
+                    <td class="numberColumn">
+                        <span class="count">
+                            <a href="${grailsApplication.config.collectory.baseURL}"><db:formatNumber value="${datasets.partnerCount}"/></a>
+                        </span>
                     </td>
                 </tr>
                 <tr class="link">

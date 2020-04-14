@@ -20,7 +20,7 @@ class MetadataService {
     MessageSource messageSource
     def webService, cacheService, grailsApplication
 
-    String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL, IMAGES_URL, USERDETAILS_URL
+    String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL, IMAGES_URL, USERDETAILS_URL, LISTS_URL
 
     @PostConstruct
     def init() {
@@ -32,6 +32,7 @@ class MetadataService {
         LOGGER_URL = grailsApplication.config.logger.baseURL
         IMAGES_URL = grailsApplication.config.images.baseURL
         USERDETAILS_URL = grailsApplication.config.userDetails.baseURL
+        LISTS_URL =  grailsApplication.config.lists.baseURL
     }
 /**
      * Populates the model for the dashboard view
@@ -287,8 +288,20 @@ log.info("===================================================")
             allDRs.sort { it.uid[2..-1].toInteger() }
             def last = allDRs.last()
 
-            //def results = [total: resp.total, groups: resp.groups, last: last]
-            def results = [total: resp.total, partnerCount: partnerCount,  institutionCount: institutionCount, collectionCount: collectionCount, dataAvailableCount: dataAvailableCount, descriptionOnlyCount: (resp.groups.records - dataAvailableCount), groups: resp.groups, last: last]
+            // look up "Artenlisten"
+            def Map listTypesMap = [:]
+            def listJson = new URL("${LISTS_URL}/ws/speciesList?max=10000").text
+            def listOfLists = (new JsonSlurper().parseText(listJson))?.lists
+
+            def listTypes2 = listOfLists.collect { it.listType } .unique()
+            def listTypes = listTypes2.sort() {messageSource.getMessage("panels.datasetsPanel.listType."+it, null, it, LocaleContextHolder.getLocale())}
+            listTypesMap = listTypes.collectEntries { [it, 0] }
+            listOfLists.each {
+                listTypesMap[it.listType]++
+            }
+            def listsCount = listOfLists.size()
+
+            def results = [total: resp.total, listsCount: listsCount, listTypesMap: listTypesMap, partnerCount: partnerCount,  dataAvailableCount: dataAvailableCount, descriptionOnlyCount: (resp.groups.records - dataAvailableCount), groups: resp.groups, last: last]
 
             return results
         })

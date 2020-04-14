@@ -38,11 +38,22 @@
                     </td>
                 </tr>
                <tr class="link">
-                    <td id="species-list">${message(code:'panels.datasetsPanel.speciesListsSets', default:'Species List sets')}</td>
-                    <td class="numberColumn"><span class="count"><db:formatNumber
-                            value="${datasets.groups.'species-list'}"/></span>
+                   <td id="species-list"><a href="${grailsApplication.config.lists.baseURL}/public/speciesLists">${message(code:'panels.datasetsPanel.speciesListsSets', default:'Species List sets')}</a></td>
+                    <td class="numberColumn"><a href="${grailsApplication.config.lists.baseURL}/public/speciesLists"><span class="count"><db:formatNumber
+                            value="${datasets.listsCount}"/></span></a>
                     </td>
                </tr>
+                <g:each in="${datasets.listTypesMap}"  var="entry">
+                    <tr class="link">
+                        <td class="text-indent" id="listTypes">&#8226; <a href="${grailsApplication.config.lists.baseURL}/public/speciesLists?&controller=public&action=speciesLists&max=25&sort=listName&order=asc&listType=eq:${entry.key}">${message(code:'panels.datasetsPanel.listType.'+entry.key, default:entry.key)}</a></td>
+                        <td class="numberColumn">
+                            <a href="${grailsApplication.config.lists.baseURL}/public/speciesLists?&controller=public&action=speciesLists&max=25&sort=listName&order=asc&listType=eq:${entry.key}"><span class="count"><db:formatNumber value="${entry.value}"/></span></a>
+                        </td>
+                    </tr>
+                </g:each>
+
+
+
                <g:if test="${datasets.groups.document}">
                     <tr class="link">
                         <td id="document">${message(code:'panels.datasetsPanel.documentSets', default:'Document sets')}</td>

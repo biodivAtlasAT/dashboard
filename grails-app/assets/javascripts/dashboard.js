@@ -335,7 +335,8 @@ var dashboard = {
                             break;
                     }
                     // Redirect to the collection
-                    document.location.href = dashboard.urls.collections + "?start=" + cat;
+					if (cat != "")
+						document.location.href = dashboard.urls.collections + "?start=" + cat;
                 }
             }
         }

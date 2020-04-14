@@ -12,11 +12,14 @@ class ChartsController {
         def insects = message(code: "panels.collectionPanel.insects", default:"Insects")
         def otherFauna = message(code: "panels.collectionPanel.otherFauna", default:"Other fauna")
         def microbes = message(code: "panels.collectionPanel.microbes", default:"Microbes")
+        def other = message(code: "panels.collectionPanel.notCategorized", default:"Not categorized")
+
         def data = [
-                [plants, collections.plants],
-                [insects, collections.insects],
-                [otherFauna, collections.otherFauna],
-                [microbes, collections.micro]
+                [plants, collections.plantsCount],
+                [insects, collections.entomologyCount],
+                [otherFauna, collections.faunaCount],
+                [microbes, collections.microbesCount],
+                [other, collections.otherCount]
         ]
         [columns: columns, data: data]
     }

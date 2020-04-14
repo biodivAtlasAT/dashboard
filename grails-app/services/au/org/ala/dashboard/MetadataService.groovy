@@ -307,6 +307,37 @@ log.info("===================================================")
         })
     }
 
+    def getCollectionsByCategory() {
+        return cacheService.get('collectionsByCategory', {
+            def action = "Collections by Category lookup"
+            // look it up
+            log.info action
+            def resp = null
+
+            def faunaCountJson = new JsonSlurper().parseText(new URL("${COLLECTORY_URL}/public/mapFeatures?filters=fauna%2Centomology")?.text?:"{}")
+            int faunaCount = faunaCountJson?.features?.size?:0
+
+            def microbesCountJson = new JsonSlurper().parseText(new URL("${COLLECTORY_URL}/public/mapFeatures?filters=microbes")?.text?:"{}")
+            int microbesCount = microbesCountJson?.features?.size?:0
+
+            def plantsCountJson = new JsonSlurper().parseText(new URL("${COLLECTORY_URL}/public/mapFeatures?filters=plants")?.text?:"{}")
+            int plantsCount = plantsCountJson?.features?.size?:0
+
+            def entomologyCountJson = new JsonSlurper().parseText(new URL("${COLLECTORY_URL}/public/mapFeatures?filters=entomology")?.text?:"{}")
+            int entomologyCount = entomologyCountJson?.features?.size?:0
+
+            def allCountJson = new JsonSlurper().parseText(new URL("${COLLECTORY_URL}/public/mapFeatures?filters=all")?.text?:"{}")
+            int allCount = allCountJson?.features?.size?:0
+
+            int otherCount = allCount - faunaCount - microbesCount - entomologyCount - plantsCount
+
+            def results = [allCount: allCount, faunaCount: faunaCount, microbesCount: microbesCount, plantsCount: plantsCount, entomologyCount: entomologyCount, otherCount:otherCount]
+
+            return results
+        })
+    }
+
+
     /**
      * Uses a cached spatial services lookup to return counts for layers by type.
      * @return map with total and breakdown by type, domain and classification1
@@ -842,7 +873,7 @@ log.info("===================================================")
         return cacheService.get(key, { cacheService.loadStaticCacheFromFile(key) })
     }
 
-    def getCollectionsByCategory() {
+    def getCollectionsByCategory_deprecated() {
         return get('collections')
     }
 

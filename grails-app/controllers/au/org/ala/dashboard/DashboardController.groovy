@@ -198,7 +198,7 @@ class DashboardController {
 
         // collections
         if(grailsApplication.config.getProperty("panels.collectionPanel", Boolean, true))
-            writeCsvFile('collections', metadataService.getCollectionsByCategory(), ['category','number of collections'])
+            writeCsvFile('collections', metadataService.getCollectionsByCategory(), ['category','number of collections per category'])
 
         // data providers
         if(grailsApplication.config.getProperty("panels.recordsByDataProviderPanel", Boolean, true))

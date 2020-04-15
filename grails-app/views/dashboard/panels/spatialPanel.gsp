@@ -19,21 +19,14 @@
                     <td class="numberColumn"><span class="count">${spatialLayers.groups.environmental}</span></td>
                 </tr>
             </table>
-            <table class="table table-condensed table-striped table-hover">
-                <tr>
-                    <td width="80%">${message(code:'panels.spatialPanel.terrestrialLayers', default:'Terrestrial layers')}</td>
-                    <td class="numberColumn"><span class="count">${spatialLayers.groups.terrestrial}</span></td>
-                </tr>
-                <tr>
-                    <td>${message(code:'panels.spatialPanel.marineLayers', default:'Marine layers')}</td>
-                    <td class="numberColumn"><span class="count">${spatialLayers.groups.marine}</span></td>
-                </tr>
-            </table>
 
-            <div id="moreSpatial" style="display:none;">
-                <table class="table table-condensed table-striped table-hover">
-                    <g:each in="${spatialLayers.classification}" var="c">
-                        <tr><td>${c.key}</td><td class="numberColumn"><span class="count">${c.value}</span></td></tr>
+            <div id="moreSpatial">
+                <table  id="spatialLayersTable" class="table table-condensed table-striped table-hover">
+                    <g:each in="${spatialLayers.classification}" var="cr" status="rIdx">
+                        <tr class="${rIdx >= 2 ? 'hideableRow' : ''}">
+                            <td>${cr.key}</td>
+                            <td class="numberColumn"><span class="count">${cr.value}</span></td>
+                        </tr>
                     </g:each>
                 </table>
             </div>

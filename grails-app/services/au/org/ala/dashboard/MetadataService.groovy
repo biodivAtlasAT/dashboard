@@ -366,14 +366,10 @@ log.info("===================================================")
 
             def environmental = resp.count { it.type == 'Environmental' }
             def contextual = resp.count { it.type == 'Contextual' }
-            def terrestrial = resp.count { it.domain == 'Terrestrial' }
-            def marine = resp.count { it.domain == 'Marine' || it.classification1 == 'Marine' }
 
             def results = [total         : resp.size(), groups: [
                     environmental: environmental,
                     contextual   : contextual,
-                    terrestrial  : terrestrial,
-                    marine       : marine
             ],
                            classification: resp.countBy { it.classification1 }]
             return results

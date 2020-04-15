@@ -235,12 +235,21 @@ var dashboard = {
             $(this).html(open ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
         });
         // more.. in spatial topic
-        $('#moreSpatialLink').click(function () {
+        /*$('#moreSpatialLink').click(function () {
             $('#moreSpatialLink').html($('#moreSpatial:visible').length ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
             $('#moreSpatial').slideToggle(300,  function() {
                 jQuery.fn.matchHeight._update();
             });
+        });*/
+
+        $('#spatialLayersTable .hideableRow').hide();
+        $('#moreSpatialLink').on('click touch', function(){
+            $('#moreSpatialLink').html($('#moreSpatial tr.hideableRow:visible').length ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
+            $('#moreSpatial .hideableRow').slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
         });
+
         // more.. in type status topic
         $('#moreTypesLink').click(function () {
             $('#moreTypesLink').html($('#moreTypes:visible').length ? 'More' : 'Less');

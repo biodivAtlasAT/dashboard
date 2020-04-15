@@ -234,14 +234,8 @@ var dashboard = {
             });
             $(this).html(open ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
         });
-        // more.. in spatial topic
-        /*$('#moreSpatialLink').click(function () {
-            $('#moreSpatialLink').html($('#moreSpatial:visible').length ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
-            $('#moreSpatial').slideToggle(300,  function() {
-                jQuery.fn.matchHeight._update();
-            });
-        });*/
 
+        // more.. in spatial topic
         $('#spatialLayersTable .hideableRow').hide();
         $('#moreSpatialLink').on('click touch', function(){
             $('#moreSpatialLink').html($('#moreSpatial tr.hideableRow:visible').length ? moreLessTranslations.tr_more : moreLessTranslations.tr_less);
@@ -348,6 +342,25 @@ var dashboard = {
 						document.location.href = dashboard.urls.collections + "?start=" + cat;
                 }
             }
+        },
+
+        state: {
+            /**
+             * Event handler that redirects the user to the URL that corresponds to the selected chart portion
+             * @param visualization
+             * @param data
+             */
+            showState: function(visualization, data) {
+                if(visualization.getSelection() && visualization.getSelection().length > 0) {
+                    var slice = data.getValue(visualization.getSelection()[0].row, 0),
+                        cat = "";
+                    // Redirect to the result page
+                    if (slice != "Nicht definiert" && slice != "Not supplied")
+                        document.location.href = dashboard.urls.biocacheUI + "/occurrences/search?q=state%3A" + encodeURI(slice);
+                }
+            }
         }
+
+
     }
 };

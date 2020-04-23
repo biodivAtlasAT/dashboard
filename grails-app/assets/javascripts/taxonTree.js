@@ -1,4 +1,27 @@
-
+/************************************************************\
+ * Go to occurrence records for selected node
+ \************************************************************/
+function showRecords(node, query) {
+    var rank = node.attr('rank');
+    if (rank == 'kingdoms') return;
+    var name = node.attr('id');
+    // url for records list
+    var recordsUrl = urlConcat(GRAILS_CONFIG.biocacheWebappUrl, "/occurrences/search?q=") + query +
+        "&fq=" + rank + ":\"" + name + "\"";
+    document.location.href = recordsUrl;
+}
+/************************************************************\
+ * Go to 'species' page for selected node
+ \************************************************************/
+function showBie(node) {
+    var rank = node.attr('rank');
+    if (rank == 'kingdoms') return;
+    var name = node.attr('id');
+    var sppUrl = GRAILS_CONFIG.bieWebappUrl + "/species/" + name;
+    //var sppUrl = GRAILS_CONFIG.bieWebappUrl + "/search?q=" + name;
+    //if (rank != 'species') { sppUrl += "_(" + rank + ")"; }
+    document.location.href = sppUrl;
+}
 /*------------------------- TAXON TREE -----------------------------*/
 /************************************************************\
  * Concatenate url fragments handling stray slashes
@@ -52,7 +75,8 @@ function initTaxonTree(treeOptions) {
         })
         .bind("select_node.jstree", function (event, data) {
             // click will show the context menu
-            $tree.jstree("show_contextmenu", data.rslt.obj);
+            if (data.rslt.obj.attr('rank') != "kingdoms")
+                $tree.jstree("show_contextmenu", data.rslt.obj);
         })
         .bind("loaded.jstree", function (event, data) {
             // get rid of the anchor click handler because it hides the context menu (which we are 'binding' to click)
@@ -79,12 +103,18 @@ function initTaxonTree(treeOptions) {
                         var nodes = [];
                         var rank = data.rank;
                         $.each(data.taxa, function(i, obj) {
-                            var label = obj.label + " - " + obj.count;
-                            if (rank == 'species') {
-                                nodes.push({"data":label, "attr":{"rank":rank, "id":obj.label}});
-                            }
-                            else {
-                                nodes.push({"data":label, "state":"closed", "attr":{"rank":rank, "id":obj.label}});
+                            // RW: Workaround for non-specified taxa
+                            if(obj.label != "") {
+                                var label = obj.label + " - " + obj.count;
+                                if (rank == 'species') {
+                                    nodes.push({"data": label, "attr": {"rank": rank, "id": obj.label}});
+                                } else {
+                                    nodes.push({
+                                        "data": label,
+                                        "state": "closed",
+                                        "attr": {"rank": rank, "id": obj.label}
+                                    });
+                                }
                             }
                         });
                         return nodes;
@@ -102,16 +132,18 @@ function initTaxonTree(treeOptions) {
                 //url: treeOptions.serverUrl + "/js/themes/" + (treeOptions.theme || 'default') + "/style.css"
             },
             checkbox: {override_ui:true},
-            contextmenu: {select_node: false, show_at_node: false, items: {
-                // records: {label: tr_showRecords, action: function(obj) {showRecords(obj, query);}},
-                records: {label: tr_showRecords, action: function(obj) {alert("Verlinkung erst in der naechsten Ausbaustufe des Biodiversity-Atlas");}},
-                //bie: {label: tr_showInformation, action: function(obj) {showBie(obj);}},
-                bie: {label: tr_showInformation, action: function(obj) {alert("Verlinkung erst in der naechsten Ausbaustufe des Biodiversity-Atlas");}},
-                create: false,
-                rename: false,
-                remove: false,
-                ccp: false }
+            contextmenu: {
+                select_node: false, show_at_node: false, items: function ($node) {
+                    myDisabled = false;
+                    if($node.attr('rank') == "kingdom")
+                        myDisabled = true;
+                    return {
+                        "records": {label: tr_showRecords, action: function(obj) {showRecords(obj, query);}},
+                        "bie": {_disabled: myDisabled, label: tr_showInformation, action: function(obj) {showBie(obj);}},
+                    };
+                },
             },
+
             plugins: ['json_data','themes','ui','contextmenu']
         });
 }

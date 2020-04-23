@@ -381,7 +381,7 @@ log.info("===================================================")
 
             def baseUrl = "${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_BY_CONSERVATION_STATUS}"
                     ""
-            log.info"used url: "+ baseUrl
+            log.info"Conservation: used url: "+ baseUrl
             def data = []
                 ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Extinct'].each {
 //            ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Listed under FFG Act', 'Extinct', 'Parent Species (Unofficial)'].each {
@@ -735,11 +735,23 @@ log.info("===================================================")
      * @return [[label: <value>, count: <value<], ...]
      */
     List getRecordsByLifeForm() {
-        return cacheService.get('records_by_life_form', {
+        //[i18nCode:species_group.Algae, count:430, label:Algae, fq:species_group:"Algae"], [i18nCode:species_group.Amphibians, count:3993, label:Amphibians, fq:species_group:"Amphibians"], [i18nCode:species_group.Animals, count:357534, label:Animals, fq:species_group:"Animals"], [i18nCode:species_group.Arthropods, count:335612, label:Arthropods, fq:species_group:"Arthropods"], [i18nCode:species_group.Birds, count:2171, label:Birds, fq:species_group:"Birds"], [i18nCode:species_group.Bryophytes, count:667, label:Bryophytes, fq:species_group:"Bryophytes"], [i18nCode:species_group.Crustaceans, count:1381, label:Crustaceans, fq:species_group:"Crustaceans"], [i18nCode:species_group.Fishes, count:95, label:Fishes, fq:species_group:"Fishes"], [i18nCode:species_group.Fungi, count:303, label:Fungi, fq:species_group:"Fungi"], [i18nCode:species_group.Insects, count:320240, label:Insects, fq:species_group:"Insects"], [i18nCode:species_group.Mammals, count:147, label:Mammals, fq:species_group:"Mammals"], [i18nCode:species_group.Molluscs, count:12750, label:Molluscs, fq:species_group:"Molluscs"], [i18nCode:species_group.Plants, count:6713, label:Plants, fq:species_group:"Plants"], [i18nCode:species_group.Protozoa, count:2, label:Protozoa, fq:species_group:"Protozoa"], [i18nCode:species_group.Reptiles, count:2092, label:Reptiles, fq:species_group:"Reptiles"], [i18nCode:species_group.novalue, count:1095, label:Nicht angegeben, fq:-species_group:*]
+        def res = cacheService.get('records_by_life_form', {
             def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_RECORDS_BY_LIFE_FORM}")
 
             results?.facetResults?.fieldResult[0]
         })
+        // sort depending on locale
+        def l = res
+        l.each { value ->
+            def transl = messageSource.getMessage("panels.recordsByLifeFormPanel."+value["i18nCode"],null, "no", LocaleContextHolder.getLocale())
+            value.putAt("translation", transl)
+        }
+        l.sort({m1, m2 -> m1.translation <=> m2.translation})
+
+        //results?.facetResults?.fieldResult[0]
+        l
+
     }
 
     /**

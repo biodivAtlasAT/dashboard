@@ -147,7 +147,23 @@ var dashboard = {
         // add click listener
         $('#lifeformsTable td:nth-child(odd)').click(function () {
             var group = $(this).html();
-            document.location.href = dashboard.urls.biocacheUI + "/occurrences/search?q=*:*&fq=species_group:" + group;
+            var tdGroup = $(this).attr("id");
+            var i18n = $(this).attr("i18n");
+            if (i18n == "species_group.novalue")
+                document.location.href = dashboard.urls.biocacheUI + "/occurrences/search?q=*:*&fq=-kingdom:*";
+            else
+                document.location.href = dashboard.urls.biocacheUI + "/occurrences/search?q=*:*&fq=species_group:" + tdGroup;
+        });
+
+        // add click listener
+        $('#lifeformsTable-small td:nth-child(odd)').click(function () {
+            var group = $(this).html();
+            var tdGroup = $(this).attr("id");
+            var i18n = $(this).attr("i18n");
+            if (i18n == "species_group.novalue")
+                document.location.href = dashboard.urls.biocacheUI + "/occurrences/search?q=*:*&fq=-kingdom:*";
+            else
+            document.location.href = dashboard.urls.biocacheUI + "/occurrences/search?q=*:*&fq=species_group:" + tdGroup;
         });
 
         //lifeforms

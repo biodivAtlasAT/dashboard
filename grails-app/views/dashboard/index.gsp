@@ -122,6 +122,12 @@
 <asset:javascript src="application.js"/>
 
 <asset:script type="text/javascript">
+
+var GRAILS_CONFIG = {
+      biocacheWebappUrl: "${grailsApplication.config.biocache.webappURL}",
+      bieWebappUrl: "${grailsApplication.config.bieUI.baseURL}",
+};
+
 var alaWsUrls = {
 collections: '${grailsApplication.config.collectory.baseURL}',
 biocache: '${grailsApplication.config.biocache.baseURL}',

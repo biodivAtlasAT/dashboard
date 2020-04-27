@@ -1,7 +1,7 @@
 <div class="col-sm-4 col-md-4" id="most-topic">
     <div class="panel">
         <div class="panel-heading">
-            <div class="panel-title">Most recorded species<i class="fa fa-info-circle pull-right hidden"></i></div>
+            <div class="panel-title">${message(code:'panels.mostRecordedSpeciesPanel.title', default:'Most recorded species')}<i class="fa fa-info-circle pull-right hidden"></i></div>
         </div>
 
         <div class="panel-body">
@@ -13,14 +13,13 @@
                     <g:each in="${mostRecorded.facets}" var="m">
                         <tr class="link"><td id="${m.facet}"><em>${m.name}</em>
                             <g:if test="${m.common}">- ${m.common}</g:if></td>
-                            <td><span class="count">${m.formattedCount}</span></td>
+                            <td class="numberColumn"><span class="count">${m.formattedCount}</span></td>
                         </tr>
                     </g:each>
                 </table>
             </div>
-            <g:select from="['all lifeforms', 'Plants', 'Animals', 'Birds', 'Reptiles', 'Arthropods',
-                             'Mammals', 'Fishes', 'Insects', 'Amphibians', 'Bacteria', 'Fungi']" name="mostSppGroup"/>
             %{--<g:img style="vertical-align:middle;display:none" id="mostLoadingImg" dir="images" file="spinner.gif"/>--}%
+            <g:select name="mostSppGroup" from="${sortedGroups.entrySet()}" optionKey="key" optionValue="value" />
             <asset:image style="vertical-align:middle;display:none" id="mostLoadingImg" src="spinner.gif" />
         </div>
     </div>

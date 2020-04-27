@@ -133,7 +133,7 @@ collections: '${grailsApplication.config.collectory.baseURL}',
 biocache: '${grailsApplication.config.biocache.baseURL}',
 biocacheUI: '${grailsApplication.config.biocache.webappURL}',
 bie: '${grailsApplication.config.bie.baseURL}',
-bieUI: '${grailsApplication.config.bie.webappURL}',
+bieUI: '${grailsApplication.config.bieUI.baseURL}',
 app: '${request.contextPath}'
 }
 

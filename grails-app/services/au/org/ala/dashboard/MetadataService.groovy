@@ -122,6 +122,13 @@ class MetadataService {
                     it.name = data.name
                     it.common = data.common
                 }
+                else {
+                    if (it.i18nCode.toString() == "species_guid.novalue") {
+                        def notDefined = messageSource.getMessage("panels.mostRecordedSpeciesPanel.notDefined",null, "Not defined", LocaleContextHolder.getLocale())
+                        it.name = notDefined
+                        it.common = null
+                    }
+                }
             }
 
             return results
@@ -493,7 +500,8 @@ log.info("===================================================")
             facets << [display       : humanise(facet.label),
                        facet         : facet.label,
                        formattedCount: format(facet.count as long),
-                       count         : facet.count as long
+                       count         : facet.count as long,
+                        i18nCode    :   facet.i18nCode
             ]
         }
         log.info "facets = ${facets}"

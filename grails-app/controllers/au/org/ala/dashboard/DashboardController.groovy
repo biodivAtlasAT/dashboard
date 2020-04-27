@@ -18,10 +18,14 @@ package au.org.ala.dashboard
 import au.com.bytecode.opencsv.CSVWriter
 import grails.converters.JSON
 import org.apache.commons.io.FileUtils
+import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.context.MessageSource
+
 
 class DashboardController {
 
     def metadataService, cacheService
+    MessageSource messageSource
 
     /**
      * Show main dashboard page.
@@ -67,7 +71,13 @@ class DashboardController {
     }
 
     def mostRecordedSpeciesPanel = {
-        render view: 'panels/mostRecordedSpeciesPanel', model: [mostRecorded: metadataService.getMostRecordedSpecies('all')]
+        Map groups = [:]
+        List listOfGroups =['all_lifeforms', 'Plants', 'Animals', 'Birds', 'Reptiles', 'Arthropods', 'Mammals', 'Fishes', 'Insects', 'Amphibians', 'Fungi']
+        listOfGroups.each {
+            groups.put(it, messageSource.getMessage("panels.mostRecordedSpeciesPanel.dropdownBox.${it}",null, "Not defined", LocaleContextHolder.getLocale()))
+        }
+        def sortedGroups = groups.sort({m1, m2 -> m1.value <=> m2.value})
+        render view: 'panels/mostRecordedSpeciesPanel', model: [mostRecorded: metadataService.getMostRecordedSpecies('all'), sortedGroups: sortedGroups]
     }
 
     def typeSpecimensPanel = {

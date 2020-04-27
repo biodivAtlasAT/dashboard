@@ -2,6 +2,11 @@
  * contains dashboard dynamic behaviour
  * @type {{urls: {collections: null, biocache: null, bie: null, app: null}, init: Function, setupPanelInfo: Function, sortableFeature: {sortableListSelector: string, sortableListCookieName: string, sortableListCookieExp: number, sortableOriginalOrder: *, init: Function, serializeListOrderToCookie: Function, restoreListOrderFromCookie: Function}, drawLifeformsTable: Function, wireActions: Function, charts: {collection: {showCollection: Function}}}}
  */
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 var dashboard = {
     urls: {
         collections: null,
@@ -201,9 +206,9 @@ var dashboard = {
                         html = '<p class="error" title="' + data.reason + '">' + data.error + '</p>';
                     } else {
                         $.each(data.facets, function(i, obj) {
-                            html += "<tr><td id='"+ obj.facet + "'><em>" + obj.name + "</em>" +
-                            (obj.common === null ? "" : (" - " + obj.common)) + "</td><td>" +
-                            "<span class='count'>" + obj.count + "</span></td></tr>";
+                            html += "<tr><td co='"+obj.i18nCode+"' id='"+ obj.facet + "'><em>" + obj.name + "</em>" +
+                            (obj.common === null ? "" : (" - " + obj.common)) + "</td><td class='numberColumn'>" +
+                            "<span class='count'>" + numberWithCommas(obj.count) + "</span></td></tr>";
                         });
                     }
                     $('#mostRecorded table').html(html);
@@ -301,7 +306,9 @@ var dashboard = {
         // species links
         $('#most-topic').on('click', 'td:first-child', function (event) {
             var guid = $(event.currentTarget).attr('id');
-            document.location.href = dashboard.urls.bieUI + "/species/" + guid;
+            var co = $(event.currentTarget).attr('co');
+            if(co != "species_guid.novalue")   //i18nCode for not defined
+                document.location.href = dashboard.urls.bieUI + "/species/" + guid;
         });
         // by date links
         $('#date-topic td:first-child').click(function () {

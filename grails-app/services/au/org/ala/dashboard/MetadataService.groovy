@@ -593,7 +593,8 @@ log.info("===================================================")
             for (k in sortedBreakdowns.keySet()) {
                 def keyMap = sortedBreakdowns[k]
                 def newKey = k.toLowerCase().replace(' ','.').replace('/','.')
-                def descr = messageSource.getMessage("panels.downloadsByReasonPanel."+newKey,null, newKey, LocaleContextHolder.getLocale())
+                //def descr = messageSource.getMessage("panels.downloadsByReasonPanel."+newKey,null, newKey, LocaleContextHolder.getLocale())
+                def descr = newKey
                 results.add([StringUtils.capitalize(descr), format(keyMap["events"] as long), format(keyMap["records"] as long)])
             }
 
